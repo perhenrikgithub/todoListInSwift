@@ -35,7 +35,7 @@ struct LoginView: View {
                         .padding(.horizontal)
                     
                     InputField(secure: true, backgroundColor: Color("Gray100_solid"), textColor: Color.black, placeholder: "Password", textSize: 25)
-                        .padding(.horizontal)g
+                        .padding(.horizontal)
                     
                     ZStack {
                         RoundedRectangle(cornerRadius: 50)
