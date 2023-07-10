@@ -8,8 +8,7 @@
 import SwiftUI
 
 struct RegistrationView: View {
-    @State var email = ""
-    @State var password = ""
+    @StateObject var viewModel = RegistrationViewModel()
     
     @State private var secondaryColor = UIColor(red: 0, green: 0.3, blue: 1, alpha: 0.9)
     @State private var gray100 = UIColor(red: 0.93, green: 0.93, blue: 0.93, alpha: 1)
@@ -30,23 +29,18 @@ struct RegistrationView: View {
                         .foregroundColor(Color("TextMain"))
                         .padding(.bottom)
                     
-                    InputField(secure: false, backgroundColor: Color("Gray100_solid"), textColor: Color.black, placeholder: "Email", textSize: 25)
+                    InputField(secure: false, backgroundColor: Color("Gray100_solid"), textColor: Color.black, placeholder: "Email", textSize: 25, content: $viewModel.email)
                         .padding(.horizontal)
                     
-                    InputField(secure: true, backgroundColor: Color("Gray100_solid"), textColor: Color.black, placeholder: "Password", textSize: 25)
+                    InputField(secure: true, backgroundColor: Color("Gray100_solid"), textColor: Color.black, placeholder: "Password", textSize: 25, content: $viewModel.password)
                         .padding(.horizontal)
                     
                     
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 50)
-                            .foregroundColor(Color(secondaryColor))
-                        Text("Sign Up")
-                            .autocapitalization(.none)
-                            .font(.system(size: 28).bold())
-                            .foregroundColor(Color.white)
-                            .multilineTextAlignment(.center)
-                            .padding(.all)
-                            
+                    TLButton(
+                        title: "Sign up",
+                        background: Color(secondaryColor)
+                    ) {
+                        print("Attempting sign up")
                     }
                     .padding(.horizontal)
                     

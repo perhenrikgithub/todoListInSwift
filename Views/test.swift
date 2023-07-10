@@ -1,20 +1,36 @@
-//
-//  test.swift
-//  TodoList
-//
-//  Created by Per Henrik Mork Viken on 10/07/2023.
-//
-
 import SwiftUI
 
-struct test: View {
+struct Test: View {
+    @State private var shouldShake = false
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
+            VStack {
+                Text("Click to Shake")
+                    .font(.largeTitle)
+                    .padding()
+                    .background(Color.blue)
+                    .foregroundColor(.white)
+                    .cornerRadius(10)
+                    .onTapGesture {
+                        withAnimation(Animation.default.repeatCount(3).speed(5)) {
+                            shouldShake = true
+                        }
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                            shouldShake = false
+                        }
+                    }
+                
+                Rectangle()
+                    .frame(width: 200, height: 200)
+                    .foregroundColor(.red)
+                    .cornerRadius(10)
+                    .offset(x: shouldShake ? -10 : 0)
+            }
+        }
 }
 
-struct test_Previews: PreviewProvider {
+struct Test_Previews: PreviewProvider {
     static var previews: some View {
-        test()
+        Test()
     }
 }

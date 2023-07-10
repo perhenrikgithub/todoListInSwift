@@ -10,10 +10,10 @@ import Foundation
 import SwiftUI
 
 struct LoginView: View {
+    @StateObject var viewModel = LoginViewModel()
     
-    @State var email = ""
-    @State var password = ""
-    @State private var secondaryColor = UIColor(red: 1, green: 0, blue: 0, alpha: 1)
+    var loginColor = UIColor(red: 1, green: 0, blue: 0, alpha: 1)
+    @State var errorMessage = " "
     
     var body: some View {
         NavigationView {
@@ -22,7 +22,7 @@ struct LoginView: View {
                     Image(systemName: "pencil.and.outline")
                         .font(.system(size: 150).bold())
                         .symbolRenderingMode(.palette)
-                        .foregroundStyle(Color("PenColor"), Color(secondaryColor))
+                        .foregroundStyle(Color("PenColor"), Color(loginColor))
                     
                     
                     Text("Welcome back!")
@@ -31,23 +31,36 @@ struct LoginView: View {
                         .padding(.bottom)
                     
         
-                    InputField(secure: false, backgroundColor: Color("Gray100_solid"), textColor: Color.black, placeholder: "Email", textSize: 25)
+                    InputField(secure: false, backgroundColor: Color("Gray100_solid"), textColor: Color.black, placeholder: "Email", textSize: 25, content: $viewModel.email)
                         .padding(.horizontal)
                     
-                    InputField(secure: true, backgroundColor: Color("Gray100_solid"), textColor: Color.black, placeholder: "Password", textSize: 25)
+                    InputField(secure: true, backgroundColor: Color("Gray100_solid"), textColor: Color.black, placeholder: "Password", textSize: 25, content: $viewModel.password)
                         .padding(.horizontal)
                     
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 50)
-                            .foregroundColor(Color(secondaryColor))
-                        Text("Log in")
-                            .autocapitalization(.none)
-                            .font(.system(size: 28).bold())
-                            .foregroundColor(Color.white)
-                            .multilineTextAlignment(.center)
-                            .padding(.all)
+                    TLButton(
+                        title: "Log in",
+                        background: Color(loginColor)
+                    ) {
+                        // Attempting log in
+                        if !viewModel.isLoginOk() {
+                            
+                            
+                            if viewModel.errorMessages.contains([LoginErrorMessages.emailIsEmpty]) {
+                                //
+                            }
+                            
+                            if viewModel.errorMessages.contains([LoginErrorMessages.passwordIsEmpty]) {
+                                //
+                            }
+                        } else {
+                            viewModel.login()
+                        }
+                        
+                        
                     }
                     .padding(.horizontal)
+                    
+                    Text(errorMessage)
                     
                     
                     
@@ -57,7 +70,7 @@ struct LoginView: View {
                 VStack {
                     Text("New here?")
                     NavigationLink("Create An Account", destination: RegistrationView())
-                        .foregroundColor(Color(secondaryColor))
+                        .foregroundColor(Color(loginColor))
                 }
                 .offset(y: (UIScreen.main.bounds.height / 2 ) - 60)
             }
